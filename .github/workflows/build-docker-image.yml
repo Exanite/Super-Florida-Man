@@ -31,7 +31,7 @@ jobs:
     - name: Docker - Configure Max Container Size
       shell: powershell
       run: | 
-          Set-Content -Path C:\ProgramData\Docker\config -Value '{
+          Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
             "registry-mirrors": [],
             "insecure-registries": [],
             "debug": false,
