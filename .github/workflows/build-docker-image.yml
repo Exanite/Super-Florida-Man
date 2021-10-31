@@ -19,8 +19,8 @@ jobs:
     steps:
 
     # Login to Github
-    - name: Login to Github
-      run: echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
+    #- name: Login to Github
+    #  run: echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
 
     # Login to Docker
     - name: Login to Docker
@@ -30,30 +30,17 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
     # run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
+    # Ensure Access to Unreal Engine Repository
+    - name: Ensure Access to Unreal Engine Repository
+      run: git ls-remote --heads https://github.com/EpicGames/UnrealEngine.git
+
     # Install ue4-docker
     - name: Install ue4-docker
       run: pip install ue4-docker
       
-    # Close Docker
-    - name: Close Docker
-      run: Stop-Service *docker*
-
-    # Edit Docker Daemon Configuration
-    - name: Edit Docker Daemon Configuration
-      run: | 
-        Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
-          "registry-mirrors": [],
-          "insecure-registries": [],
-          "debug": false,
-          "experimental": false,
-          "storage-opts": [
-            "size=400GB"
-          ]
-        }' >> test.txt
-
-    # Restart Docker
-    - name: Restart Docker
-      run: Start-Service *docker*
+    # Setup Build Environment
+    - name: Setup Build Environment
+      run: ue4-docker setup
 
     # Build Unreal Engine Image
     - name: Build Unreal Engine Image
