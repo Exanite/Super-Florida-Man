@@ -34,12 +34,12 @@ jobs:
     - name: Install ue4-docker
       run: pip install ue4-docker
       
-    # Docker - Close Docker
-    - name: Docker - Close Docker
+    # Close Docker
+    - name: Close Docker
       run: Stop-Service *docker*
 
-    # Docker - Edit Daemon Configuration
-    - name: Docker - Configure Max Container Size
+    # Edit Docker Daemon Configuration
+    - name: Edit Docker Daemon Configuration
       run: | 
         Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
           "registry-mirrors": [],
@@ -51,8 +51,8 @@ jobs:
           ]
         }' >> test.txt
 
-    # Docker - Restart Docker
-    - name: Docker - Restart Docker
+    # Restart Docker
+    - name: Restart Docker
       run: Start-Service *docker*
 
     # Build Unreal Engine Image
