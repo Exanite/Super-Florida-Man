@@ -25,7 +25,10 @@ jobs:
 
     # Login to Github
     - name: Login to Github
-      run: gh auth login --with-token ${{ secrets.GH_TOKEN }}
+      run: |
+        Set-Content -Path gh_token.txt -Value ${{ secrets.GH_TOKEN }} ;
+        gh auth login --with-token < gh_token.txt ;
+        rm gh_token.txt
 
     # Login to Docker
     - name: Login to Docker
