@@ -21,8 +21,8 @@ jobs:
       
     # Log Directories and Files
     - name: Log Directories and Files
-      shell: bash
-      run: du -a /
+      shell: powershell
+      run: robocopy . . /l /s /njh /njs /ns /lev:4
 
     # Install ue4-docker
     - name: Install ue4-docker
