@@ -34,15 +34,15 @@ jobs:
     # Docker - Edit Daemon Configuration
     - name: Docker - Configure Max Container Size
       run: | 
-          Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
-            "registry-mirrors": [],
-            "insecure-registries": [],
-            "debug": false,
-            "experimental": false,
-            "storage-opts": [
-              "size=400GB"
-            ]
-          }' >> test.txt
+        Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
+          "registry-mirrors": [],
+          "insecure-registries": [],
+          "debug": false,
+          "experimental": false,
+          "storage-opts": [
+            "size=400GB"
+          ]
+        }' >> test.txt
 
     # Docker - Restart Docker
     - name: Docker - Restart Docker
@@ -50,4 +50,15 @@ jobs:
 
     # Build Unreal Engine Image
     - name: Build Unreal Engine Image
-      run: ue4-docker build 4.27.0 --visual-studio 2019 --no-full --no-engine -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
+      run: ue4-docker build 4.27.0 --basetag ltsc2022 --visual-studio 2019 --no-full --no-engine -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
+
+    # Login to Docker
+    - name: Login to Docker
+      run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      
+    # Push Unreal Engine Image to Docker Repository
+    - name: Push Unreal Engine Image to Docker Repository
+      run: |
+        docker image tag adamrehn/ue4-minimal:4.27.0-ltsc2022-vs2019 ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-4.27.0 ;
+        docker image push ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-4.27.0
+        
