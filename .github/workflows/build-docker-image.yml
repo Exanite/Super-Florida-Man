@@ -31,8 +31,7 @@ jobs:
     - name: Docker - Configure Max Container Size
       shell: powershell
       run: | 
-          rm C:\ProgramData\Docker\config ; 
-          echo '{
+          Set-Content -Path C:\ProgramData\Docker\config -Value '{
             "registry-mirrors": [],
             "insecure-registries": [],
             "debug": false,
@@ -40,7 +39,7 @@ jobs:
             "storage-opts": [
               "size=400GB"
             ]
-          }' >> C:\ProgramData\Docker\config
+          }' >> test.txt
 
     # Docker - Switch to Windows Daemon
     - name: Docker - Switch to Windows Daemon
