@@ -1,7 +1,10 @@
-
 name: Build Docker Image
 
 on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -13,7 +16,7 @@ jobs:
     
     # Log Disk Space
     - name: Log Disk Space
-      run: wslbash.exe -c "df -h"
+      run: bash -c "df -h"
     
     # Install ue4-docker
     - name: Install ue4-docker
