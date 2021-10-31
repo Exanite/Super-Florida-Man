@@ -13,11 +13,19 @@ jobs:
     name: Build Docker Image
     runs-on: windows-2022
     steps:
-    
+
     # Log Disk Space
     - name: Log Disk Space
       run: bash -c "df -h"
-    
+
     # Install ue4-docker
     - name: Install ue4-docker
       run: pip install ue4-docker
+
+    # Docker - Configure Max Container Size
+    - name: Docker - Configure Max Container Size
+      run: dockerd --storage-opt "size=50GB"
+
+    # Docker - Switch to Windows Daemon
+    - name: Docker - Switch to Windows Daemon
+      run: '& "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchWindowsEngine'
