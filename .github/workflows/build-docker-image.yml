@@ -21,6 +21,10 @@ jobs:
     # Install ue4-docker
     - name: Install ue4-docker
       run: pip install ue4-docker
+      
+    # Docker - Temporarily Close Docker
+    - name: Docker - Temporarily Close Docker
+      run: powershell -c "Stop-Service *docker*"
 
     # Docker - Configure Max Container Size
     - name: Docker - Configure Max Container Size
