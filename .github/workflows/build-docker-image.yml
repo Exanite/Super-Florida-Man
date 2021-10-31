@@ -18,6 +18,11 @@ jobs:
     - name: Log Disk Space
       shell: bash
       run: df -h
+      
+    # Log Directories and Files
+    - name: Log Directories and Files
+      shell: bash
+      run: du -a .
 
     # Install ue4-docker
     - name: Install ue4-docker
