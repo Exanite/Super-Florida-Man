@@ -32,7 +32,7 @@ jobs:
 
     # Install ue4-docker
     - name: Install ue4-docker
-      run: pip install ue4-docker
+      run: pip install git+https://github.com/adamrehn/ue4-docker@00fe69849d6c1e098bc276f9797e9b7542e7d55b
 
     # Close Docker
     - name: Close Docker
