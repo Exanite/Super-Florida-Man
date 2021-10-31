@@ -18,10 +18,13 @@ jobs:
     runs-on: windows-2022
     steps:
 
-    # Log Disk Space
-    - name: Log Disk Space
-      shell: bash
-      run: df -h
+    # Login to Github
+    - name: Login to Github
+      run: echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
+
+    # Login to Docker
+    - name: Login to Docker
+      run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     # Install ue4-docker
     - name: Install ue4-docker
@@ -47,14 +50,6 @@ jobs:
     # Docker - Restart Docker
     - name: Docker - Restart Docker
       run: Start-Service *docker*
-
-    # Login to Github
-    - name: Login to Github
-      run: echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
-
-    # Login to Docker
-    - name: Login to Docker
-      run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     # Build Unreal Engine Image
     - name: Build Unreal Engine Image
