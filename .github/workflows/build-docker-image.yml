@@ -13,7 +13,7 @@ jobs:
     
     # Log Disk Space
     - name: Log Disk Space
-      run: dir /
+      run: dir \
     
     # Install ue4-docker
     - name: Install ue4-docker
