@@ -30,10 +30,6 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
     # run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-    # Ensure Access to Unreal Engine Repository
-    - name: Ensure Access to Unreal Engine Repository
-      run: git ls-remote --heads https://github.com/EpicGames/UnrealEngine.git
-
     # Install ue4-docker
     - name: Install ue4-docker
       run: pip install ue4-docker
