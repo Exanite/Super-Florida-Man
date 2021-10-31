@@ -28,7 +28,7 @@ jobs:
       run: pip install ue4-docker
       
     # Docker - Close Docker
-    - name: Docker - Temporarily Close Docker
+    - name: Docker - Close Docker
       run: Stop-Service *docker*
 
     # Docker - Edit Daemon Configuration
@@ -45,7 +45,7 @@ jobs:
           }' >> test.txt
 
     # Docker - Restart Docker
-    - name: Docker - Temporarily Close Docker
+    - name: Docker - Restart Docker
       run: Start-Service *docker*
 
     # Build Unreal Engine Image
