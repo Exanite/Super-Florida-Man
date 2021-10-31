@@ -25,7 +25,7 @@ jobs:
 
     # Login to Github
     - name: Login to Github
-      run: gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
+      run: gh auth login --with-token ${{ secrets.GH_TOKEN }}
 
     # Login to Docker
     - name: Login to Docker
