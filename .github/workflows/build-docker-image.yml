@@ -22,7 +22,7 @@ jobs:
     # Log Directories and Files
     - name: Log Directories and Files
       shell: powershell
-      run: robocopy \ \ /l /s /njh /njs /ns /lev:4
+      run: robocopy C:\ C:\ /l /s /njh /njs /ns /lev:4
 
     # Install ue4-docker
     - name: Install ue4-docker
