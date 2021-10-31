@@ -16,7 +16,8 @@ jobs:
 
     # Log Disk Space
     - name: Log Disk Space
-      run: bash -c "df -h"
+      shell: bash
+      run: df -h
 
     # Install ue4-docker
     - name: Install ue4-docker
@@ -43,4 +44,5 @@ jobs:
 
     # Docker - Switch to Windows Daemon
     - name: Docker - Switch to Windows Daemon
+      shell: powershell
       run: '& "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchWindowsEngine'
