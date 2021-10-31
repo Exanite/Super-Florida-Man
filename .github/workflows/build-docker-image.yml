@@ -50,7 +50,7 @@ jobs:
 
     # Build Unreal Engine Image
     - name: Build Unreal Engine Image
-      run: ue4-docker build 4.27.0 --basetag ltsc2022 --visual-studio 2019 --no-full --no-engine -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
+      run: ue4-docker build 4.27.0 -basetag ltsc2022 --visual-studio 2019 --no-full --no-engine -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
 
     # Login to Docker
     - name: Login to Docker
