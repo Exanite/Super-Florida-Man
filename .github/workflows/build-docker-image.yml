@@ -29,7 +29,7 @@ jobs:
 
     # Login to Docker
     - name: Login to Docker
-      run: echo ${{ secrets.DOCKER_TOKEN }} | docker login --username exanite --password-stdin
+      run: echo cd9ee17c-552e-43ae-b1ba-2296d7d3292c | docker login --username exanite --password-stdin
 
     # Install ue4-docker
     - name: Install ue4-docker
