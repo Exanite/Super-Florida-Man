@@ -1,1 +1,20 @@
 
+name: Build Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # Build Docker Image
+  build:
+    name: Build Docker Image
+    runs-on: windows-2022
+    steps:
+    
+    # Log Disk Space
+    - name: Log Disk Space
+      run: dir /
+    
+    # Install ue4-docker
+    - name: Install ue4-docker
+      run: pip install ue4-docker
