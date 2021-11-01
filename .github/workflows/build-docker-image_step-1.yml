@@ -61,8 +61,8 @@ jobs:
     - name: Setup Build Environment
       run: ue4-docker setup
 
-    # Build Prequisites and Source Images
-    - name: Build Prequisites and Source Images
+    # Build Prerequisites and Source Images
+    - name: Build Prerequisites and Source Images
       run: |
         ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} `
         -basetag ${{ env.BASE_IMAGE }} `
