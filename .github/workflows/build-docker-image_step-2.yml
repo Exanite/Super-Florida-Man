@@ -81,8 +81,8 @@ jobs:
     - name: Pull Prerequisites Image
       run: | 
         $IMAGE_TAG = '${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}' ;
-        $IMAGE_FROM = 'adamrehn/ue4-prerequisites:' + $IMAGE_TAG ;
-        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-prerequisites-' + $IMAGE_TAG ;
+        $IMAGE_FROM = 'adamrehn/ue4-build-prerequisites:' + $IMAGE_TAG ;
+        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-build-prerequisites-' + $IMAGE_TAG ;
         docker image pull $IMAGE_TO ;
         docker image tag $IMAGE_TO $IMAGE_FROM
         
