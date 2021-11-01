@@ -1,0 +1,89 @@
+name: Build Docker Image - Step 2/2
+
+on:
+  workflow_dispatch:
+  
+# Required Secrets
+# GH_USERNAME
+# GH_TOKEN
+# DOCKER_USERNAME
+# DOCKER_TOKEN
+# DOCKER_REPOSITORY
+
+defaults:
+  run:
+    shell: powershell
+    
+env:
+  UNREAL_ENGINE_VERSION: 4.27.0
+  BASE_IMAGE: ltsc2022
+  VISUAL_STUDIO_VERSION: 2019
+  UE4_DOCKER_VERSION: 00fe69849d6c1e098bc276f9797e9b7542e7d55b
+
+jobs:
+  # Build Docker Image
+  build:
+    name: Build Docker Image
+    runs-on: windows-2022
+    steps:
+
+    # Login to Docker
+    - name: Login to Docker
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+
+    # Ensure Access to Unreal Engine Repository
+    - name: Ensure Access to Unreal Engine Repository
+      run: git ls-remote --heads https://${{ secrets.GH_USERNAME }}:${{ secrets.GH_TOKEN }}@github.com/EpicGames/UnrealEngine.git
+
+    # Edit Docker Daemon Configuration
+    - name: Edit Docker Daemon Configuration
+      run: | 
+        Stop-Service *docker* ;
+        Set-Content -Path C:\ProgramData\Docker\config\daemon.json -Value '{
+          "registry-mirrors": [],
+          "insecure-registries": [],
+          "debug": false,
+          "experimental": false,
+          "storage-opts": [
+            "size=400GB"
+          ]
+        }' ;
+        Start-Service *docker*
+    
+    # Log Page File Size
+    - name: Log Page File Size
+      run: Get-CimInstance Win32_PageFileSetting | fl *
+    
+    # Pull Prerequisite and Source Images
+    - name: Pull Prerequisite and Source Images
+      run: echo Not implemented yet ; exit 1
+
+    # Install ue4-docker
+    - name: Install ue4-docker
+      run: pip install git+https://github.com/adamrehn/ue4-docker@${{ env.UE4_DOCKER_VERSION }}
+
+    # Setup Build Environment
+    - name: Setup Build Environment
+      run: ue4-docker setup
+
+    # Build Prequisites and Source Images
+    - name: Build Unreal Engine Image
+      run: |
+        ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} `
+        -basetag ${{ env.BASE_IMAGE }} `
+        --visual-studio ${{ env.VISUAL_STUDIO_VERSION }} `
+        --no-full --no-engine `
+        -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
+      
+    # Push Minimal Image
+    - name: Push Source Image
+      env:
+        IMAGE_TAG: ${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}
+        IMAGE_FROM: adamrehn/ue4-minimal:${{ env.IMAGE_TAG }}
+        IMAGE_TO: ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-minimal-${{ env.IMAGE_TAG }}
+      run: |
+        docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
+        docker image push ${{ env.IMAGE_TO }}
