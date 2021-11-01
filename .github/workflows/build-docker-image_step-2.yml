@@ -21,9 +21,9 @@ env:
   UE4_DOCKER_VERSION: 00fe69849d6c1e098bc276f9797e9b7542e7d55b
 
 jobs:
-  # Build Docker Image with Pagefile ${{ matrix.PAGE_FILE_SIZE }}
+  # Build Docker Image - Step 2/2
   build:
-    name: Build Docker Image
+    name: Build Docker Image - Step 2/2 (Pagefile ${{ matrix.PAGE_FILE_SIZE }})
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -68,14 +68,6 @@ jobs:
         minimum-size: ${{ matrix.PAGE_FILE_SIZE }}
         maximum-size: ${{ matrix.PAGE_FILE_SIZE }}
         disk-root: "C:"
-    
-    # Log Page File Size
-    - name: Log Page File Size
-      run: Get-CimInstance Win32_PageFileSetting | fl *
-    
-    # Pull Prerequisite and Source Images
-    - name: Pull Prerequisite and Source Images
-      run: echo Not implemented yet ; exit 1
 
     # Install ue4-docker
     - name: Install ue4-docker
@@ -104,7 +96,6 @@ jobs:
       run: |
         docker image pull ${{ env.IMAGE_FROM }}
         docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
-
 
     # Build Minimal Image
     - name: Build Minimal Image
