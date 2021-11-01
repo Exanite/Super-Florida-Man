@@ -21,9 +21,9 @@ env:
   UE4_DOCKER_VERSION: 00fe69849d6c1e098bc276f9797e9b7542e7d55b
 
 jobs:
-  # Build Docker Image
+  # Build Docker Image - Step 1/2
   build:
-    name: Build Docker Image
+    name: Build Docker Image - Step 1/2
     runs-on: windows-2022
     steps:
 
@@ -62,7 +62,7 @@ jobs:
       run: ue4-docker setup
 
     # Build Prequisites and Source Images
-    - name: Build Unreal Engine Image
+    - name: Build Prequisites and Source Images
       run: |
         ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} `
         -basetag ${{ env.BASE_IMAGE }} `
