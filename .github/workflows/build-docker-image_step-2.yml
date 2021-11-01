@@ -77,15 +77,6 @@ jobs:
     - name: Setup Build Environment
       run: ue4-docker setup
 
-    # Pull Prerequisites Image
-    - name: Pull Prerequisites Image
-      run: | 
-        $IMAGE_TAG = '${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}' ;
-        $IMAGE_FROM = 'adamrehn/ue4-build-prerequisites:' + $IMAGE_TAG ;
-        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-build-prerequisites-' + $IMAGE_TAG ;
-        docker image pull $IMAGE_TO ;
-        docker image tag $IMAGE_TO $IMAGE_FROM
-        
     # Pull Source Image
     - name: Pull Source Image
       run: | 
@@ -94,6 +85,11 @@ jobs:
         $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-source-' + $IMAGE_TAG ;
         docker image pull $IMAGE_TO ;
         docker image tag $IMAGE_TO $IMAGE_FROM
+        
+    # Enable Docker Layer Caching
+    - name: Enable Docker Layer Caching
+      uses: satackey/action-docker-layer-caching@v0.0.11
+      continue-on-error: true
 
     # Build Minimal Image
     - name: Build Minimal Image
