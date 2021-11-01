@@ -21,10 +21,18 @@ env:
   UE4_DOCKER_VERSION: 00fe69849d6c1e098bc276f9797e9b7542e7d55b
 
 jobs:
-  # Build Docker Image
+  # Build Docker Image with Pagefile ${{ matrix.PAGE_FILE_SIZE }}
   build:
     name: Build Docker Image
     runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+       PAGE_FILE_SIZE:
+         - 8GB
+         - 12GB
+         - 16GB
+         - 20GB
     steps:
 
     # Login to Docker
@@ -57,8 +65,8 @@ jobs:
     - name: Configure Pagefile
       uses: al-cheb/configure-pagefile-action@v1.2
       with:
-        minimum-size: 16GB
-        maximum-size: 16GB
+        minimum-size: ${{ matrix.PAGE_FILE_SIZE }}
+        maximum-size: ${{ matrix.PAGE_FILE_SIZE }}
         disk-root: "C:"
     
     # Log Page File Size
@@ -77,8 +85,29 @@ jobs:
     - name: Setup Build Environment
       run: ue4-docker setup
 
-    # Build Prequisites and Source Images
-    - name: Build Unreal Engine Image
+    # Pull Prerequisites Image
+    - name: Pull Prerequisites Image
+      env:
+        IMAGE_TAG: ${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}
+        IMAGE_FROM: ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-prerequisites-${{ env.IMAGE_TAG }}
+        IMAGE_TO: adamrehn/ue4-prerequisites:${{ env.IMAGE_TAG }}
+      run: |
+        docker image pull ${{ env.IMAGE_FROM }}
+        docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
+        
+    # Pull Source Image
+    - name: Pull Source Image
+      env:
+        IMAGE_TAG: ${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}
+        IMAGE_FROM: ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-source-${{ env.IMAGE_TAG }}
+        IMAGE_TO: adamrehn/ue4-source:${{ env.IMAGE_TAG }}
+      run: |
+        docker image pull ${{ env.IMAGE_FROM }}
+        docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
+
+
+    # Build Minimal Image
+    - name: Build Minimal Image
       run: |
         ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} `
         -basetag ${{ env.BASE_IMAGE }} `
