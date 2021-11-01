@@ -72,20 +72,18 @@ jobs:
       
     # Push Prerequisites Image
     - name: Push Prerequisites Image
-      env:
-        IMAGE_TAG: ${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}
-        IMAGE_FROM: adamrehn/ue4-prerequisites:${{ env.IMAGE_TAG }}
-        IMAGE_TO: ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-prerequisites-${{ env.IMAGE_TAG }}
-      run: |
-        docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
-        docker image push ${{ env.IMAGE_TO }}
+      run: | 
+        $IMAGE_TAG = '${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}' ;
+        $IMAGE_FROM = 'adamrehn/ue4-prerequisites:' + $IMAGE_TAG ;
+        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-prerequisites-' + $IMAGE_TAG ;
+        docker image tag $IMAGE_FROM $IMAGE_TO ;
+        docker image push $IMAGE_TO
         
     # Push Source Image
     - name: Push Source Image
-      env:
-        IMAGE_TAG: ${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}
-        IMAGE_FROM: adamrehn/ue4-source:${{ env.IMAGE_TAG }}
-        IMAGE_TO: ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-source-${{ env.IMAGE_TAG }}
-      run: |
-        docker image tag ${{ env.IMAGE_FROM }} ${{ env.IMAGE_TO }} ;
-        docker image push ${{ env.IMAGE_TO }}
+      run: | 
+        $IMAGE_TAG = '${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}' ;
+        $IMAGE_FROM = 'adamrehn/ue4-source:' + $IMAGE_TAG ;
+        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-source-' + $IMAGE_TAG ;
+        docker image tag $IMAGE_FROM $IMAGE_TO ;
+        docker image push $IMAGE_TO
