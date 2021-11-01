@@ -68,10 +68,10 @@ jobs:
     # Build Prequisites and Source Images
     - name: Build Unreal Engine Image
       run: |
-        ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} \
-        -basetag ${{ env.BASE_IMAGE }} \
-        --visual-studio ${{ env.VISUAL_STUDIO_VERSION }} \
-        --no-full --no-engine --no-minimal \
+        ue4-docker build ${{ env.UNREAL_ENGINE_VERSION }} `
+        -basetag ${{ env.BASE_IMAGE }} `
+        --visual-studio ${{ env.VISUAL_STUDIO_VERSION }} `
+        --no-full --no-engine --no-minimal `
         -username ${{ secrets.GH_USERNAME }} -password ${{ secrets.GH_TOKEN }}
       
     # Push Prerequisites Image
