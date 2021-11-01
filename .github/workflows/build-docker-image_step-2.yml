@@ -38,12 +38,12 @@ jobs:
     # Testing
     - name: Testing
       run: | 
-        $IMAGE_TAG = ${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }} ;
-        $IMAGE_FROM = adamrehn/ue4-minimal:$IMAGE_TAG ;
-        $IMAGE_TO = ${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-minimal-$IMAGE_TAG ;
-        echo ${{ env.IMAGE_TAG }} ;
-        echo ${{ env.IMAGE_FROM }} ;
-        echo ${{ env.IMAGE_TO }} ;
+        $IMAGE_TAG = '${{ env.UNREAL_ENGINE_VERSION }}-${{ env.BASE_IMAGE }}-vs${{ env.VISUAL_STUDIO_VERSION }}' ;
+        $IMAGE_FROM = 'adamrehn/ue4-minimal:$IMAGE_TAG' ;
+        $IMAGE_TO = '${{ secrets.DOCKER_REPOSITORY }}:unreal-engine-minimal-$IMAGE_TAG' ;
+        echo $IMAGE_TAG ;
+        echo $IMAGE_FROM ;
+        echo $IMAGE_TO ;
         exit 1
 
     # Login to Docker
