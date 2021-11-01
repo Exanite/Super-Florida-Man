@@ -16,7 +16,7 @@ defaults:
     
 env:
   UNREAL_ENGINE_VERSION: 4.27.0
-  BASE_IMAGE: ltsc2022
+  BASE_IMAGE: ltsc2019
   VISUAL_STUDIO_VERSION: 2019
   UE4_DOCKER_VERSION: 00fe69849d6c1e098bc276f9797e9b7542e7d55b
 
@@ -24,7 +24,7 @@ jobs:
   # Build Docker Image - Step 1/2
   build:
     name: Build Docker Image - Step 1/2
-    runs-on: windows-2022
+    runs-on: windows-2019
     steps:
 
     # Login to Docker
