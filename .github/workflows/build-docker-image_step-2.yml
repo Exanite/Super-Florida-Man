@@ -53,6 +53,14 @@ jobs:
         }' ;
         Start-Service *docker*
     
+    # Configure Pagefile
+    - name: Configure Pagefile
+      uses: al-cheb/configure-pagefile-action@v1.2
+      with:
+        minimum-size: 16
+        maximum-size: 16
+        disk-root: "C:"
+    
     # Log Page File Size
     - name: Log Page File Size
       run: Get-CimInstance Win32_PageFileSetting | fl *
