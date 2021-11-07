@@ -43,7 +43,7 @@ jobs:
     # Build Game
     - name: Build Game
       run: | 
-        docker run -v ${{ github.workspace }}:/Project `
+        docker run -v ${{ github.workspace }}:C:\Project `
         ${{ secrets.IMAGE_TAG }} `
         powershell "cd Project ; ue4 package Shipping -platform=${{ matrix.PLATFORM }}"
           
