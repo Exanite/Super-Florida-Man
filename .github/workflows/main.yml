@@ -29,6 +29,10 @@ jobs:
        - Linux
        - Mac
     steps:
+    
+    # Login to Docker
+    - name: Login to Docker
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
 
     # Checkout Super-Florida-Man
     - name: Checkout Super-Florida-Man
@@ -38,16 +42,11 @@ jobs:
     
     # Build Game
     - name: Build Game
-      uses: addnab/docker-run-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
-        image: ${{ secrets.IMAGE_TAG }}
-        options: -v ${{ github.workspace }}:/Project
-        run: |
-          cd Project ;
-          ue4 package Shipping -platform=${{ matrix.PLATFORM }}
-    
+      run: | 
+        docker run -v ${{ github.workspace }}:/Project `
+        ${{ secrets.IMAGE_TAG }} `
+        powershell "cd Project ; ue4 package Shipping -platform=${{ matrix.PLATFORM }}"
+          
     # Upload Game
     - name: Upload Game
       uses: actions/upload-artifact@v2.1.4
