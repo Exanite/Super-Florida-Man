@@ -16,7 +16,7 @@ defaults:
     shell: powershell
 
 env:
-  IMAGE_TAG: exanite/exanite:unreal-engine-4.27.0-ltsc2019-windows
+  IMAGE_TAG: exanite/exanite:unreal-engine-4.27.0-ltsc2019-windows-ddc
 
 jobs:
   # Build
