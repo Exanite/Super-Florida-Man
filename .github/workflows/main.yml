@@ -3,7 +3,6 @@ name: Build
 # Required Secrets
 # DOCKER_USERNAME
 # DOCKER_TOKEN
-# IMAGE_TAG
 
 on:
   push:
@@ -16,6 +15,9 @@ defaults:
   run:
     shell: powershell
 
+env:
+  IMAGE_TAG: exanite/exanite:unreal-engine-4.27.0-ltsc2019-windows
+
 jobs:
   # Build
   build:
@@ -26,8 +28,8 @@ jobs:
       matrix:
        PLATFORM:
        - Win64
-       - Linux
-       - Mac
+     # - Linux
+     # - Mac
     steps:
     
     # Login to Docker
@@ -44,7 +46,7 @@ jobs:
     - name: Build Game
       run: | 
         docker run -v ${{ github.workspace }}:C:\Project `
-        ${{ secrets.IMAGE_TAG }} `
+        ${{ env.IMAGE_TAG }} `
         powershell "cd Project ; ue4 package Shipping -platform=${{ matrix.PLATFORM }}"
           
     # Upload Game
